@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" fill="none" role="img" aria-label="PrivaView Smart Privacy Glass">
+  <defs>
+    <linearGradient id="glassFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#d4e8f8"/>
+    </linearGradient>
+    <linearGradient id="bgGlow" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#b8d4f0" stop-opacity="0.35"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="160" cy="55" rx="130" ry="50" fill="url(#bgGlow)"/>
+  <g transform="translate(78, 18)">
+    <path d="M8 72 L8 18 L52 8 L52 62 Z" fill="url(#glassFill)" stroke="#6eb0e8" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M48 62 L48 8 L96 18 L96 72 Z" fill="url(#glassFill)" stroke="#5aa3e0" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M92 62 L92 18 L136 28 L136 82 Z" fill="url(#glassFill)" stroke="#6eb0e8" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M18 38 C32 28, 48 48, 62 38 S92 28, 108 38 S138 48, 122 58" stroke="#3478C1" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M22 50 C36 42, 52 58, 66 50 S96 42, 112 50 S142 58, 126 66" stroke="#5a9fd4" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.75"/>
+  </g>
+  <text x="160" y="128" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="34" font-weight="700" fill="#3478C1" letter-spacing="0.5">PrivaView</text>
+  <text x="160" y="155" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="500" fill="#3478C1" letter-spacing="0.8">Smart Privacy Glass</text>
+</svg>

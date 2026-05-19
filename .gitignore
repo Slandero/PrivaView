@@ -1,0 +1,44 @@
+# Dependencias
+node_modules/
+
+# Build
+dist/
+dist-ssr/
+*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Variables de entorno (secretos)
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Caché de herramientas
+.vite/
+.cache/
+.eslintcache
+
+# Tests / cobertura
+coverage/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editores (opcional; descomenta si no quieres compartir config local)
+# .vscode/
+# .idea/
+
+# Otros
+*.pem
+.turbo/
