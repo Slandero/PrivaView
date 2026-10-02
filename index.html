@@ -1,17 +1,615 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="PrivaView — Vidrio inteligente PDLC. Compra por metro cuadrado." />
-    <title>PrivaView | Tienda PDLC</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrivaView Landing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: product landing. Sticky nav · hero (copy + live glass) · 3 stat strip · 01 problema (4 cards) · 02 sistema (tabbed module showcase) · 03 cotiza (simulator) · contacto · footer */
+:root{
+  --bg:#ffffff; --bg2:#f2f6fb; --ink:#0c1f3a; --muted:#5a6a80; --line:#dde5ef;
+  --brand:#1d6fe0; --brand-ink:#ffffff; --brand-soft:#e6f0fd; --cyan:#19b6d9;
+  --dark:#0c1f3a; --on-dark:#e8f0fb; --dark-line:rgba(255,255,255,.12);
+  --sky1:#8fc3ec; --sky2:#e3f1fb; --g1:#86b56f; --g2:#5f9452; --wall:#ece0cf; --roof:#b8644c;
+  --frost:rgba(247,250,253,.88);
+  --f-disp:"Sora",system-ui,sans-serif; --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#081426; --bg2:#0d1d34; --ink:#e7eef8; --muted:#9badc4; --line:#1f3452;
+  --brand:#5ea2ff; --brand-ink:#06122a; --brand-soft:#132c4e; --cyan:#4fd2ee;
+  --dark:#050d1a; --on-dark:#e7eef8;
+  --sky1:#4b7ca6; --sky2:#9cc3e2; --g1:#517f46; --g2:#3d6636; --wall:#cbbca8; --roof:#93503e;
+  --frost:rgba(212,225,238,.84); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#081426; --bg2:#0d1d34; --ink:#e7eef8; --muted:#9badc4; --line:#1f3452;
+  --brand:#5ea2ff; --brand-ink:#06122a; --brand-soft:#132c4e; --cyan:#4fd2ee;
+  --dark:#050d1a; --on-dark:#e7eef8;
+  --sky1:#4b7ca6; --sky2:#9cc3e2; --g1:#517f46; --g2:#3d6636; --wall:#cbbca8; --roof:#93503e;
+  --frost:rgba(212,225,238,.84); color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+[hidden]{display:none!important}
+img{max-width:100%}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--f-body)}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--f-disp);margin:0;line-height:1.1;text-wrap:balance;letter-spacing:-.02em}
+p{margin:0}
+a{color:var(--brand)}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:8px}
+.kicker{font-family:var(--f-mono);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand)}
+.muted{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:999px;font:700 .95rem var(--f-body);text-decoration:none;border:1.5px solid var(--brand);cursor:pointer;transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.fill{background:var(--brand);color:var(--brand-ink)}
+.btn.line{background:transparent;color:var(--brand)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:20px;padding-block:14px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font:800 1.15rem var(--f-disp)}
+.logo img{height:34px;width:auto;flex:none}
+.hero-logo{width:min(240px,60%);height:auto}
+.logo small{font:500 .78rem var(--f-body);color:var(--muted);letter-spacing:0}
+.nav nav{display:flex;gap:22px;margin-left:auto;align-items:center}
+.nav nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.93rem}
+.nav nav a:hover{color:var(--ink)}
+.nav .btn{padding:9px 16px}
+@media (max-width:720px){.nav nav a:not(.btn){display:none}.logo small{display:none}}
+
+/* hero */
+.hero{padding-block:64px 40px;background:radial-gradient(1200px 500px at 85% -10%,var(--brand-soft),transparent 60%)}
+.hero .wrap{display:grid;grid-template-columns:1fr;gap:44px;justify-items:center;text-align:center}
+.hero-copy{display:grid;gap:22px;min-width:0;justify-items:center;max-width:860px}
+.hero h1{font-size:clamp(2.2rem,5.2vw,3.7rem);font-weight:800}
+.hero h1 span{background:linear-gradient(90deg,var(--brand),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{font-size:1.1rem;color:var(--muted);max-width:60ch;margin-inline:auto}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:8px;background:var(--bg);width:100%;max-width:720px}
+.stats div{padding:16px 18px;border-right:1px solid var(--line);display:grid;gap:2px}
+.stats div:last-child{border-right:0}
+.stats b{font:800 1.6rem var(--f-disp);color:var(--ink)}
+.stats small{color:var(--muted);font-size:.82rem;line-height:1.35}
+@media (max-width:520px){.stats{grid-template-columns:1fr}.stats div{border-right:0;border-bottom:1px solid var(--line)}.stats div:last-child{border-bottom:0}}
+
+.glass{display:grid;gap:12px;min-width:0}
+.glass{width:100%;max-width:920px}
+.win{position:relative;aspect-ratio:1200/674;max-width:100%;border-radius:22px;overflow:hidden;border:12px solid var(--bg);box-shadow:0 0 0 1px var(--line),0 40px 70px -40px rgba(12,31,58,.55);background:var(--sky2)}
+.win img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.win .frosted{opacity:0;transition:opacity .45s ease}
+.win.off .frosted{opacity:1}
+.win figcaption{position:absolute;right:14px;bottom:12px;z-index:4;font:500 .72rem var(--f-mono);color:#ffffff;background:rgba(12,31,58,.7);padding:4px 9px;border-radius:99px}
+.badge{position:absolute;z-index:4;top:14px;left:14px;font:500 .76rem var(--f-mono);background:var(--dark);color:var(--on-dark);padding:6px 10px;border-radius:99px;display:flex;gap:8px;align-items:center}
+.badge i{width:8px;height:8px;border-radius:50%;background:var(--cyan)}
+.win.off .badge i{background:var(--muted)}
+.sw{display:flex;align-items:center;gap:14px;background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.sw p{font-size:.9rem;color:var(--muted);flex:1;text-align:left}
+.tg{width:62px;height:34px;border-radius:99px;border:0;background:var(--brand);position:relative;cursor:pointer;flex:none;transition:background .2s}
+.tg::after{content:"";position:absolute;top:4px;left:32px;width:26px;height:26px;border-radius:50%;background:var(--bg);transition:left .2s}
+.tg[aria-pressed="false"]{background:var(--muted)}
+.tg[aria-pressed="false"]::after{left:4px}
+
+/* sections */
+.sec{padding-block:88px}
+.sec.alt{background:var(--bg2)}
+.sec-head{display:grid;justify-items:center;text-align:center;gap:12px;margin-bottom:44px}
+.sec-num{font:800 clamp(3rem,7vw,5rem) var(--f-disp);line-height:.85;color:transparent;-webkit-text-stroke:1.5px var(--brand)}
+.sec-head h2{font-size:clamp(1.7rem,3.6vw,2.6rem)}
+.sec-head p{color:var(--muted);max-width:62ch;margin-inline:auto}
+
+/* problem cards */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media (max-width:960px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.cards{grid-template-columns:1fr}}
+.c{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:24px;display:grid;gap:12px;align-content:start;justify-items:center;text-align:center;transition:border-color .2s,transform .2s}
+.c:hover{border-color:var(--brand);transform:translateY(-3px)}
+.c .ic{width:46px;height:46px;border-radius:14px;background:var(--brand-soft);display:grid;place-items:center}
+.c .ic svg{width:24px;height:24px}
+.c h3{font-size:1.15rem}
+.c p{color:var(--muted);font-size:.94rem}
+.c .before{font-size:.85rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.c .before b{color:var(--ink)}
+.proof{margin-top:24px;display:grid;grid-template-columns:1fr;justify-items:center;text-align:center;gap:8px;align-items:center;background:var(--dark);color:var(--on-dark);border-radius:20px;padding:22px 26px}
+.proof b{font:800 clamp(2.4rem,5vw,3.2rem) var(--f-disp);color:var(--cyan)}
+.proof small{display:block;opacity:.65;font-size:.8rem;margin-top:4px}
+@media (max-width:520px){.proof{grid-template-columns:1fr}}
+
+/* system tabs */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;justify-content:center}
+.module .txt>h3,.module .txt>.kicker,.panel>h3{text-align:center;justify-content:center}
+.tab{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:99px;padding:10px 16px;font:700 .9rem var(--f-body);cursor:pointer;display:flex;gap:8px;align-items:center}
+.tab span{font:500 .72rem var(--f-mono);color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab[aria-selected="true"] span{color:var(--bg);opacity:.7}
+.module{display:grid;grid-template-columns:1fr 1.15fr;gap:32px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:24px;padding:32px}
+@media (max-width:860px){.module{grid-template-columns:1fr;padding:22px}}
+.module .txt{display:grid;gap:14px;min-width:0}
+.module h3{font-size:1.6rem}
+.module ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.module li{position:relative;padding-left:32px;color:var(--muted)}
+.module li::before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--brand-soft);box-shadow:inset 0 0 0 5px var(--brand)}
+.mock{background:var(--dark);color:var(--on-dark);border-radius:18px;padding:20px;min-height:300px;display:grid;gap:12px;align-content:start;font-size:.9rem;min-width:0}
+.mock .top{display:flex;justify-content:space-between;align-items:center;font:500 .76rem var(--f-mono);opacity:.75}
+.mock .dots{display:flex;gap:6px}.mock .dots i{width:9px;height:9px;border-radius:50%;background:var(--dark-line)}
+.layers{display:grid;gap:6px}
+.layers div{display:flex;justify-content:space-between;padding:11px 14px;border-radius:10px;background:rgba(255,255,255,.06);font-weight:600}
+.layers div span{font:400 .74rem var(--f-mono);opacity:.65}
+.layers .p{background:linear-gradient(90deg,var(--brand),var(--cyan));color:#ffffff}
+.layers .p span{opacity:.85}
+.sensors{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sensor{background:rgba(255,255,255,.06);border-radius:12px;padding:12px;display:grid;gap:2px}
+.sensor small{font:500 .72rem var(--f-mono);opacity:.65}
+.sensor b{font:700 1.3rem var(--f-disp);font-variant-numeric:tabular-nums}
+.sensor .st{font-size:.78rem;color:var(--cyan)}
+.rule{background:rgba(255,255,255,.06);border-radius:12px;padding:12px;font:500 .82rem var(--f-mono)}
+.ctrls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ctrl{background:rgba(255,255,255,.06);border:1px solid transparent;border-radius:14px;padding:14px;display:grid;gap:6px;cursor:pointer;color:var(--on-dark);text-align:left;font:inherit}
+.ctrl b{font-family:var(--f-disp)}
+.ctrl small{opacity:.7}
+.ctrl[aria-pressed="true"]{border-color:var(--cyan);background:rgba(79,210,238,.12)}
+.log{font:500 .8rem var(--f-mono);color:var(--cyan);min-height:1.4em}
+.steps{display:grid;gap:10px}
+.stp{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;background:rgba(255,255,255,.06);border-radius:12px;padding:12px}
+.stp i{font:800 .9rem var(--f-disp);font-style:normal;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--brand);color:#ffffff}
+.stp small{display:block;opacity:.7}
+
+/* simulator */
+.sim{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;align-items:start}
+@media (max-width:900px){.sim{grid-template-columns:1fr}}
+.panel{background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:24px;display:grid;gap:18px;min-width:0}
+.panel h3{font-size:1.05rem;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.panel h3 small{font:400 .74rem var(--f-mono);color:var(--muted)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pills button{border:1px solid var(--line);background:var(--bg2);color:var(--ink);border-radius:99px;padding:7px 13px;font:600 .84rem var(--f-body);cursor:pointer}
+.pills button:hover{border-color:var(--brand);color:var(--brand)}
+.rows{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr auto auto;gap:8px;align-items:end}
+@media (max-width:520px){.row{grid-template-columns:1fr 1fr 1fr auto}.row .ar{display:none}}
+label{display:grid;gap:4px;font-size:.76rem;font-weight:700;color:var(--muted)}
+input[type=number],input[type=text],input[type=tel],input[type=email],textarea,select{width:100%;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg2);color:var(--ink);font:500 .95rem var(--f-body)}
+input[type=number]{font-family:var(--f-mono)}
+textarea{resize:vertical;min-height:90px}
+.ar{font:500 .84rem var(--f-mono);color:var(--muted);padding-bottom:11px;white-space:nowrap}
+.x{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--muted);cursor:pointer;font-size:1.1rem}
+.x:hover{color:#d0453b;border-color:#d0453b}
+.add{justify-self:start;background:none;border:1.5px dashed var(--brand);color:var(--brand);border-radius:99px;padding:8px 14px;font:700 .88rem var(--f-body);cursor:pointer}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:end}
+@media (max-width:520px){.grid3{grid-template-columns:1fr 1fr}}
+.kit{display:grid;gap:2px}
+.kit label{display:flex;align-items:center;gap:10px;font-size:.92rem;color:var(--ink);font-weight:500;padding:6px 0}
+.kit label span{margin-left:auto;font:500 .84rem var(--f-mono);color:var(--muted)}
+.kit input{width:18px;height:18px;accent-color:var(--brand)}
+.out{position:sticky;top:calc(env(safe-area-inset-top,0px) + 84px);background:var(--dark);color:var(--on-dark);border-radius:22px;padding:26px;display:grid;gap:16px}
+.out .kicker{color:var(--cyan)}
+.big{font:800 clamp(2.3rem,5vw,3.1rem) var(--f-disp);line-height:1;font-variant-numeric:tabular-nums}
+.big small{font-size:1rem;opacity:.65}
+.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kp div{background:rgba(255,255,255,.07);border-radius:12px;padding:10px 12px}
+.kp b{display:block;font:500 1rem var(--f-mono);font-variant-numeric:tabular-nums}
+.kp small{opacity:.65;font-size:.74rem}
+.ln{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--dark-line);font-size:.92rem;font-variant-numeric:tabular-nums}
+.ln span:last-child{font-family:var(--f-mono);white-space:nowrap}
+.ln.s{padding-left:14px;font-size:.83rem;opacity:.78}
+.ln.t{font-weight:700;border-bottom:0}
+.out .note{font-size:.78rem;opacity:.65}
+.out .btn{justify-self:start;background:var(--on-dark);color:var(--dark);border-color:var(--on-dark)}
+.msg{font-size:.85rem;opacity:.85}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1.2fr;gap:28px;align-items:start}
+@media (max-width:860px){.contact{grid-template-columns:1fr}}
+.side{display:grid;gap:16px}
+.person{display:flex;gap:14px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:14px 16px}
+.av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:800 .95rem var(--f-disp);background:var(--brand-soft);color:var(--brand);flex:none}
+.person small{display:block;color:var(--muted);font-size:.8rem}
+.mailbox{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--dark);color:var(--on-dark);border-radius:18px;padding:16px 18px}
+.mailbox code{font:500 1rem var(--f-mono);user-select:all;word-break:break-all;flex:1;min-width:0}
+.mailbox .btn{padding:8px 14px;background:var(--on-dark);color:var(--dark);border-color:var(--on-dark)}
+form .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){form .grid2{grid-template-columns:1fr}}
+.sent{background:var(--brand-soft);color:var(--ink);border-radius:14px;padding:14px;font-weight:600}
+.done{background:var(--brand-soft);border-radius:14px;padding:14px;font-size:.92rem;white-space:pre-wrap;font-family:var(--f-mono)}
+
+footer{background:var(--dark);color:var(--on-dark);padding-block:48px 28px}
+footer .wrap{display:grid;gap:28px}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:28px}
+@media (max-width:760px){.fgrid{grid-template-columns:1fr}}
+footer h4{margin:0 0 10px;font:700 .78rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;opacity:.6}
+footer a{color:var(--on-dark);text-decoration:none;opacity:.85}
+footer a:hover{opacity:1}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+footer .logo{color:var(--on-dark)}
+footer .logo img{background:#ffffff;border-radius:10px;padding:4px;height:42px}
+.legal{border-top:1px solid var(--dark-line);padding-top:18px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:.84rem;opacity:.65}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#inicio"><img src="img/logo-icono.png" alt="">PrivaView <small>— Smart Privacy Glass</small></a>
+    <nav aria-label="Principal">
+      <a href="#producto">Producto</a>
+      <a href="#sistema">Sistema</a>
+      <a href="#cotiza">Cotiza</a>
+      <a href="#contacto">Contacto</a>
+      <a class="btn fill" href="#contacto">Solicitar cotización</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <img class="hero-logo" src="img/logo-privaview.png" alt="PrivaView · Smart Privacy Glass">
+      <p class="kicker">Privacidad inteligente · Tecnología PDLC</p>
+      <h1>Convierte cualquier ventana en <span>cristal inteligente</span></h1>
+      <p class="lead">PrivaView es una película adhesiva de cristal líquido que se coloca sobre el vidrio que ya tienes. Con un toque pasa de transparente a translúcido. Sin persianas, sin cortinas y sin obra.</p>
+      <div class="cta-row">
+        <a class="btn fill" href="#cotiza">Calcular mi proyecto</a>
+        <a class="btn line" href="#sistema">Ver el sistema</a>
+      </div>
+      <div class="stats">
+        <div><b>ON/OFF</b><small>Transparente o translúcido al instante</small></div>
+        <div><b>4</b><small>Formas de control: táctil, RF, voz y sonido</small></div>
+        <div><b>25%</b><small>Menos consumo en climatización</small></div>
+      </div>
+    </div>
+    <div class="glass">
+      <figure class="win" id="win" style="margin:0">
+        <img src="img/ventana-transparente.jpg" alt="Sala moderna con ventanales de piso a techo y vista a un jardín, con el cristal transparente">
+        <img class="frosted" src="img/ventana-opaca.jpg" alt="La misma sala con los ventanales en modo translúcido">
+        <figcaption>Imagen ilustrativa</figcaption>
+        <div class="badge"><i></i><span id="bTxt">ON · Transparente</span></div>
+      </figure>
+      <div class="sw">
+        <p id="swTxt">Pruébalo: apaga el cristal y mira cómo se vuelve privado.</p>
+        <button class="tg" id="tg" aria-pressed="true" aria-label="Encender o apagar el cristal"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="producto">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Las ventanas grandes dan luz, pero quitan privacidad</h2>
+      <p>Las cortinas y persianas lo resuelven solo en parte: tapan la luz, se ensucian y se desgastan. PrivaView resuelve cuatro problemas a la vez.</p>
+    </div>
+    <div class="cards">
+      <article class="c">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--brand)"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><path d="M3 3l18 18"/></svg></div>
+        <h3>Privacidad</h3>
+        <p>Pasa de transparente a translúcido con un toque. Tú decides cuándo te ven.</p>
+        <p class="before"><b>Antes:</b> persianas cerradas todo el día.</p>
+      </article>
+      <article class="c">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--brand)"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Higiene</h3>
+        <p>Superficie lisa y hermética, fácil de desinfectar. Sin telas que acumulen polvo, ácaros ni bacterias.</p>
+        <p class="before"><b>Antes:</b> cortinas que hay que lavar seguido.</p>
+      </article>
+      <article class="c">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--brand)"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></div>
+        <h3>Energía</h3>
+        <p>Bloquea rayos UV e infrarrojos y aprovecha la luz natural. Hasta 25% menos en climatización.</p>
+        <p class="before"><b>Antes:</b> luz artificial con la persiana cerrada.</p>
+      </article>
+      <article class="c">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--brand)"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 18h.01"/></svg></div>
+        <h3>Control</h3>
+        <p>Táctil, control remoto, voz con Alexa, sonido o modo automático por temperatura.</p>
+        <p class="before"><b>Antes:</b> cordones y mecanismos manuales.</p>
+      </article>
+    </div>
+    <div class="proof">
+      <b>92%</b>
+      <p>de las cortinas de privacidad de un hospital se contaminaron con bacterias potencialmente patógenas en menos de una semana. Por eso el sector salud es uno de nuestros mercados clave.<small>Ohl et al., American Journal of Infection Control, 2012</small></p>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="sistema">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>El sistema PrivaView</h2>
+      <p>Cuatro piezas que trabajan juntas: la película, el cerebro electrónico, los modos de control y la instalación llave en mano.</p>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-t="m1"><span>01</span>Película PDLC</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="m2"><span>02</span>Cerebro ESP32</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="m3"><span>03</span>Control</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="m4"><span>04</span>Instalación</button>
+    </div>
+
+    <div class="module" id="m1" role="tabpanel">
+      <div class="txt">
+        <p class="kicker">Película PDLC</p>
+        <h3>Cristal líquido entre dos capas conductivas</h3>
+        <ul>
+          <li>Con voltaje, los cristales se alinean y la luz pasa libremente: transparente.</li>
+          <li>Sin voltaje, se dispersan y bloquean la vista: translúcido.</li>
+          <li>Si se va la luz, el cristal se queda en modo privado.</li>
+          <li>Se adhiere al vidrio existente, sin cambiar la ventana.</li>
+        </ul>
+      </div>
+      <div class="mock">
+        <div class="top"><span>corte transversal</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="layers">
+          <div>Vidrio templado <span>capa 1</span></div>
+          <div>Capa conductiva ITO <span>capa 2</span></div>
+          <div class="p">Polímero PDLC <span>cristal líquido</span></div>
+          <div>Capa conductiva ITO <span>capa 4</span></div>
+          <div>Vidrio templado <span>capa 5</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module" id="m2" role="tabpanel" hidden>
+      <div class="txt">
+        <p class="kicker">Cerebro ESP32</p>
+        <h3>Detecta, decide y actúa por sí solo</h3>
+        <ul>
+          <li><b>Detecta:</b> sensores de temperatura, humedad y sonido monitorean el ambiente.</li>
+          <li><b>Decide:</b> el ESP32, con Wi-Fi y Bluetooth, procesa los datos y tus preferencias.</li>
+          <li><b>Actúa:</b> aplica bajo voltaje al PDLC y el cristal cambia al instante.</li>
+          <li>Pantalla LCD 16x2 para ver el estado y operar en modo manual.</li>
+        </ul>
+      </div>
+      <div class="mock">
+        <div class="top"><span>panel · modo automático</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="sensors">
+          <div class="sensor"><small>DHT11 · temperatura</small><b id="sT">31 °C</b><span class="st">Sobre el umbral</span></div>
+          <div class="sensor"><small>DHT11 · humedad</small><b>42 %</b><span class="st">Normal</span></div>
+          <div class="sensor"><small>KY-037 · sonido</small><b>38 dB</b><span class="st">Sin evento</span></div>
+          <div class="sensor"><small>TTP223 · táctil</small><b>Libre</b><span class="st">En espera</span></div>
+        </div>
+        <div class="rule">regla: si temperatura &gt; 30 °C → cristal OFF (translúcido) para bloquear calor</div>
+      </div>
+    </div>
+
+    <div class="module" id="m3" role="tabpanel" hidden>
+      <div class="txt">
+        <p class="kicker">Control</p>
+        <h3>Contrólalo como prefieras</h3>
+        <ul>
+          <li>Sensor táctil directamente junto a la ventana.</li>
+          <li>Control remoto por radiofrecuencia de 433 MHz.</li>
+          <li>Comando de voz mediante Alexa.</li>
+          <li>Control acústico: un aplauso cambia el estado.</li>
+        </ul>
+      </div>
+      <div class="mock">
+        <div class="top"><span>elige un modo de control</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="ctrls" id="ctrls">
+          <button class="ctrl" aria-pressed="true" data-l="Toque detectado en TTP223 → cristal cambia"><b>Táctil</b><small>TTP223</small></button>
+          <button class="ctrl" aria-pressed="false" data-l="Señal RF 433 MHz recibida → cristal cambia"><b>Control RF</b><small>433 MHz</small></button>
+          <button class="ctrl" aria-pressed="false" data-l="“Alexa, activa la privacidad” → cristal OFF"><b>Voz</b><small>Alexa</small></button>
+          <button class="ctrl" aria-pressed="false" data-l="Aplauso detectado en KY-037 → cristal cambia"><b>Sonido</b><small>KY-037</small></button>
+        </div>
+        <p class="log" id="log">Toque detectado en TTP223 → cristal cambia</p>
+      </div>
+    </div>
+
+    <div class="module" id="m4" role="tabpanel" hidden>
+      <div class="txt">
+        <p class="kicker">Instalación</p>
+        <h3>Proyectos llave en mano</h3>
+        <ul>
+          <li>Atendemos hogares, oficinas, comercios, hospitales y hoteles.</li>
+          <li>Esquema B2B y B2C: cotización por proyecto.</li>
+          <li>Instalación eléctrica conforme a la NOM-001-SEDE.</li>
+          <li>Entregamos el sistema funcionando.</li>
+        </ul>
+      </div>
+      <div class="mock">
+        <div class="top"><span>proceso de instalación</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="steps">
+          <div class="stp"><i>1</i><div><b>Visita y medición</b><small>Levantamos medidas de cada ventana.</small></div></div>
+          <div class="stp"><i>2</i><div><b>Corte y preparación</b><small>Limpieza estandarizada del cristal.</small></div></div>
+          <div class="stp"><i>3</i><div><b>Instalación</b><small>Película, cableado certificado y transformador.</small></div></div>
+          <div class="stp"><i>4</i><div><b>Puesta en marcha</b><small>Configuramos sensores y controles contigo.</small></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="cotiza">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2>Calcula el costo de tu proyecto</h2>
+      <p>Escribe las medidas de tus ventanas. Usamos los precios reales de proveedor de la película, el transformador y cada componente del kit. Viene cargado con un proyecto real: una casa de 7 ventanas.</p>
+    </div>
+    <div class="sim">
+      <div class="panel">
+        <h3>Ventanas <small>medidas en metros</small></h3>
+        <div class="pills">
+          <button type="button" data-p="casa">Casa · 7 ventanas</button>
+          <button type="button" data-p="ventanal">Ventanal 2 × 2 m</button>
+          <button type="button" data-p="hospital">Hospital · 12 ventanas</button>
+        </div>
+        <div class="rows" id="rows"></div>
+        <button type="button" class="add" id="addRow">+ Agregar ventana</button>
+        <h3>Parámetros</h3>
+        <div class="grid3">
+          <label for="tc">Tipo de cambio (MXN/USD)<input type="number" id="tc" step="0.01" min="1" value="16.92"></label>
+          <label for="mg">Margen de ganancia (%)<input type="number" id="mg" step="1" min="0" value="40"></label>
+          <label for="nT">Transformadores<input type="number" id="nT" step="1" min="0" value="1"></label>
+        </div>
+        <h3>Kit electrónico <small>precio por pieza</small></h3>
+        <div class="kit" id="kit"></div>
+        <label for="nK" style="max-width:200px">Número de kits<input type="number" id="nK" step="1" min="0" value="1"></label>
+      </div>
+      <div class="out" aria-live="polite">
+        <p class="kicker">Precio de venta llave en mano</p>
+        <div class="big" id="big">$0 <small>MXN</small></div>
+        <div class="kp">
+          <div><b id="kA">0 m²</b><small>Área total</small></div>
+          <div><b id="kM">$0</b><small>Precio por m²</small></div>
+          <div><b id="kG">$0</b><small>Ganancia</small></div>
+        </div>
+        <div id="lines"></div>
+        <p class="note">Película PDLC a 55 USD/m² y transformador H30 110 V a 55 USD. Componentes electrónicos con precios de UNIT Electronics. No incluye envío.</p>
+        <button type="button" class="btn" id="cp">Copiar cotización</button>
+        <p class="msg" id="cpMsg" hidden></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="contacto">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2>¡Transforma tus espacios hoy!</h2>
+      <p>Atendemos proyectos residenciales, corporativos e institucionales. Cuéntanos de tu proyecto y te preparamos una cotización formal.</p>
+    </div>
+    <div class="contact">
+      <div class="side">
+        <div class="mailbox"><code id="mail">privaview.smart@gmail.com</code><button type="button" class="btn" id="cpMail">Copiar correo</button></div>
+        <div class="person"><span class="av">DS</span><div><b>Dayana Yamileth Saldivar Martínez</b><small>CEO · PrivaView</small></div></div>
+      </div>
+      <form class="panel" id="form" novalidate>
+        <h3>Solicita tu cotización</h3>
+        <div class="grid2">
+          <label for="fN">Nombre<input type="text" id="fN" required placeholder="Tu nombre"></label>
+          <label for="fC">Tu correo<input type="email" id="fC" required placeholder="tucorreo@ejemplo.com"></label>
+        </div>
+        <label for="fT">Teléfono<input type="tel" id="fT" placeholder="614 000 0000"></label>
+        <div class="grid2">
+          <label for="fE">Tipo de espacio
+            <select id="fE"><option>Hogar</option><option>Oficina</option><option>Comercio</option><option>Hospital o clínica</option><option>Hotel</option></select>
+          </label>
+          <label for="fV">Número de ventanas<input type="number" id="fV" min="1" step="1" value="1"></label>
+        </div>
+        <label for="fM">¿Qué necesitas?<textarea id="fM" placeholder="Ej. privacidad en la sala, ventanales de 2 × 2 m, control con Alexa"></textarea></label>
+        <input type="text" id="fHoney" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+        <button type="submit" class="btn fill" id="fSend" style="justify-self:start">Enviar solicitud</button>
+        <p class="muted" id="fErr" hidden></p>
+        <p class="sent" id="fOk" hidden>¡Listo! Recibimos tu solicitud y te responderemos a tu correo.</p>
+        <div id="fOut" hidden>
+          <p class="muted" style="margin-bottom:8px">No pudimos enviar el formulario desde aquí. Copia este mensaje y mándalo a privaview.smart@gmail.com:</p>
+          <div class="done" id="fTxt"></div>
+          <button type="button" class="btn line" id="fCp" style="margin-top:10px">Copiar mensaje</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div style="display:grid;gap:12px">
+        <a class="logo" href="#inicio"><img src="img/logo-icono.png" alt="">PrivaView</a>
+        <p style="opacity:.75;max-width:44ch">Cristal inteligente PDLC con sistema automatizado. Tu espacio, tu control, tu privacidad al instante.</p>
+      </div>
+      <div><h4>Sistema</h4><ul><li><a href="#producto">Producto</a></li><li><a href="#sistema">Cómo funciona</a></li><li><a href="#cotiza">Simulador de costos</a></li></ul></div>
+      <div><h4>Contacto</h4><ul><li>privaview.smart@gmail.com</li><li>Instituto Tecnológico de Chihuahua II</li><li>Innova TecNM 2026 · Región 1</li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 PrivaView · Smart Privacy Glass</span><span>Proyecto Innova TecNM 2026</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  // hero glass
+  $('tg').addEventListener('click',()=>{
+    const on=$('tg').getAttribute('aria-pressed')!=='true';
+    $('tg').setAttribute('aria-pressed',String(on));
+    $('win').classList.toggle('off',!on);
+    $('bTxt').textContent=on?'ON · Transparente':'OFF · Translúcido';
+    $('swTxt').textContent=on?'Con voltaje, los cristales se alinean y la luz pasa.':'Sin voltaje, los cristales se dispersan y bloquean la vista.';
+  });
+  // tabs
+  const tabs=[...document.querySelectorAll('.tab')];
+  tabs.forEach(t=>t.addEventListener('click',()=>{
+    tabs.forEach(x=>{x.setAttribute('aria-selected',String(x===t));$(x.dataset.t).hidden=x!==t});
+  }));
+  // control demo
+  const cs=[...document.querySelectorAll('.ctrl')];
+  cs.forEach(c=>c.addEventListener('click',()=>{cs.forEach(x=>x.setAttribute('aria-pressed',String(x===c)));$('log').textContent=c.dataset.l}));
+
+  // simulator
+  const FILM=55,TRAFO=55;
+  const KIT=[{id:'esp',n:'Microcontrolador ESP32',p:131,r:1},{id:'lcd',n:'Pantalla LCD 16x2 con I2C',p:64},{id:'rf',n:'Módulo RF 433 MHz',p:31},{id:'dht',n:'Sensor DHT11 (temp. y humedad)',p:26},{id:'ky',n:'Sensor de sonido KY-037',p:16},{id:'ttp',n:'Sensor táctil TTP223',p:12}];
+  const PRE={casa:[[2.30,1.15,7]],ventanal:[[2,2,1]],hospital:[[1.20,1.50,12]]};
+  const fmt=n=>'$'+Math.round(n).toLocaleString('es-MX');
+  const num=(v,d=0)=>{const x=parseFloat(v);return isFinite(x)&&x>=0?x:d};
+  let rid=0,quote='';
+  function addRow(w=1,h=1,n=1){
+    const i=++rid,r=document.createElement('div');r.className='row';
+    r.innerHTML=`<label for="w${i}">Ancho<input type="number" id="w${i}" step="0.01" min="0" value="${w}"></label><label for="h${i}">Alto<input type="number" id="h${i}" step="0.01" min="0" value="${h}"></label><label for="q${i}">Cantidad<input type="number" id="q${i}" step="1" min="0" value="${n}"></label><span class="ar"></span><button type="button" class="x" aria-label="Quitar ventana">×</button>`;
+    r.querySelector('.x').addEventListener('click',()=>{r.remove();calc()});
+    r.addEventListener('input',calc);$('rows').appendChild(r);
+  }
+  function load(k){$('rows').innerHTML='';PRE[k].forEach(a=>addRow(...a));calc()}
+  KIT.forEach(k=>{const l=document.createElement('label');l.htmlFor='k_'+k.id;l.innerHTML=`<input type="checkbox" id="k_${k.id}" checked ${k.r?'disabled':''}> ${k.n}${k.r?' (obligatorio)':''}<span>${fmt(k.p)}</span>`;$('kit').appendChild(l)});
+  function calc(){
+    const tc=num($('tc').value,16.92),mg=num($('mg').value,40)/100,nT=num($('nT').value,1),nK=num($('nK').value,1);
+    let area=0;
+    $('rows').querySelectorAll('.row').forEach(r=>{const [w,h,n]=[...r.querySelectorAll('input')].map(i=>num(i.value));const a=w*h*n;area+=a;r.querySelector('.ar').textContent=a.toFixed(2)+' m²'});
+    const film=area*FILM*tc,trafo=nT*TRAFO*tc,sel=KIT.filter(k=>k.r||$('k_'+k.id).checked),kit=sel.reduce((s,k)=>s+k.p,0)*nK;
+    const cost=film+trafo+kit,price=cost*(1+mg),gain=price-cost;
+    $('big').innerHTML=fmt(price)+' <small>MXN</small>';
+    $('kA').textContent=area.toFixed(2)+' m²';$('kM').textContent=area>0?fmt(price/area):'$0';$('kG').textContent=fmt(gain);
+    const L=[['Película PDLC ('+area.toFixed(2)+' m² × 55 USD)',film],['Transformador H30 110 V (× '+nT+')',trafo],['Kit electrónico (× '+nK+')',kit]];
+    let h=L.map(([a,b],i)=>`<div class="ln"><span>${a}</span><span>${fmt(b)}</span></div>`+(i===2?sel.map(k=>`<div class="ln s"><span>${k.n}${nK!==1?' × '+nK:''}</span><span>${fmt(k.p*nK)}</span></div>`).join(''):'')).join('');
+    h+=`<div class="ln t"><span>Costo total</span><span>${fmt(cost)}</span></div><div class="ln"><span>Margen de ganancia (${Math.round(mg*100)}%)</span><span>${fmt(gain)}</span></div><div class="ln t"><span>Precio de venta</span><span>${fmt(price)}</span></div>`;
+    $('lines').innerHTML=h;
+    quote=`Cotización PrivaView\nÁrea total: ${area.toFixed(2)} m²\n`+L.map(([a,b])=>`${a}: ${fmt(b)} MXN`).join('\n')+`\nCosto total: ${fmt(cost)} MXN\nPrecio de venta (margen ${Math.round(mg*100)}%): ${fmt(price)} MXN\nTipo de cambio: ${tc} MXN/USD`;
+  }
+  $('addRow').addEventListener('click',()=>{addRow();calc()});
+  document.querySelectorAll('[data-p]').forEach(b=>b.addEventListener('click',()=>load(b.dataset.p)));
+  ['tc','mg','nT','nK'].forEach(id=>$(id).addEventListener('input',calc));
+  $('kit').addEventListener('change',calc);
+
+  function copy(text,onOk,onFail){try{navigator.clipboard.writeText(text).then(onOk,onFail)}catch(e){onFail()}}
+  $('cp').addEventListener('click',()=>copy(quote,()=>{$('cpMsg').textContent='Cotización copiada.';$('cpMsg').hidden=false},()=>{$('cpMsg').textContent='No se pudo copiar automáticamente.';$('cpMsg').hidden=false}));
+  $('cpMail').addEventListener('click',e=>{const b=e.currentTarget;copy('privaview.smart@gmail.com',()=>b.textContent='Copiado',()=>window.getSelection().selectAllChildren($('mail')))});
+
+  // contact form: sends a real email through FormSubmit (works when the page is hosted on the web);
+  // if sending is blocked, it shows the message so the visitor can copy it.
+  const FORM_ENDPOINT='https://formsubmit.co/ajax/privaview.smart@gmail.com';
+  $('form').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const err=m=>{$('fErr').textContent=m;$('fErr').hidden=false};
+    $('fOk').hidden=true;$('fOut').hidden=true;
+    if($('fHoney').value) return;
+    if(!$('fN').value.trim()){err('Escribe tu nombre.');$('fN').focus();return}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('fC').value.trim())){err('Escribe un correo válido para poder responderte.');$('fC').focus();return}
+    $('fErr').hidden=true;
+    const data={
+      Nombre:$('fN').value.trim(), Correo:$('fC').value.trim(), Telefono:$('fT').value.trim()||'—',
+      Espacio:$('fE').value, Ventanas:$('fV').value, Necesidad:$('fM').value.trim()||'—',
+      _subject:'Nueva solicitud de cotización · PrivaView', _replyto:$('fC').value.trim(), _template:'table', _captcha:'false'
+    };
+    const btn=$('fSend');btn.disabled=true;btn.textContent='Enviando…';
+    try{
+      const r=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
+      const j=await r.json().catch(()=>({}));
+      if(!r.ok||String(j.success)==='false') throw new Error(j.message||'error');
+      $('fOk').hidden=false;$('form').reset();
+    }catch(_){
+      $('fTxt').textContent=`Hola PrivaView, me interesa una cotización.\nNombre: ${data.Nombre}\nCorreo: ${data.Correo}\nTeléfono: ${data.Telefono}\nEspacio: ${data.Espacio}\nVentanas: ${data.Ventanas}\nNecesidad: ${data.Necesidad}`;
+      $('fOut').hidden=false;
+    }finally{btn.disabled=false;btn.textContent='Enviar solicitud'}
+  });
+  $('fCp').addEventListener('click',e=>{const b=e.currentTarget;copy($('fTxt').textContent,()=>b.textContent='Mensaje copiado',()=>window.getSelection().selectAllChildren($('fTxt')))});
+
+  load('casa');
+})();
+</script>
+</body>
 </html>
