@@ -1375,11 +1375,6 @@
             <a class="btn fill" href="#cotiza">Calcular mi proyecto</a>
             <a class="btn line" href="#sistema">Ver el sistema</a>
           </div>
-          <div class="stats">
-            <div><b>ON/OFF</b><small>Transparente o translúcido al instante</small></div>
-            <div><b>4</b><small>Formas de control: táctil, RF, voz y sonido</small></div>
-            <div><b>25%</b><small>Menos consumo en climatización</small></div>
-          </div>
         </div>
         <div class="glass">
           <figure class="win" id="win" style="margin:0">
@@ -1393,7 +1388,15 @@
             <p id="swTxt">Pruébalo: apaga el cristal y mira cómo se vuelve privado.</p>
             <button class="tg" id="tg" aria-pressed="true" aria-label="Encender o apagar el cristal"></button>
           </div>
+          <div class="hero-copy">
+            <div class="stats">
+              <div><b>ON/OFF</b><small>Transparente o translúcido al instante</small></div>
+              <div><b>4</b><small>Formas de control: táctil, RF, voz y sonido</small></div>
+              <div><b>25%</b><small>Menos consumo en climatización</small></div>
+            </div>
+          </div>
         </div>
+      </div>
       </div>
     </section>
 
@@ -1451,8 +1454,7 @@
         <div class="proof">
           <b>92%</b>
           <p>de las cortinas de privacidad de un hospital se contaminaron con bacterias potencialmente patógenas en
-            menos de una semana. Por eso el sector salud es uno de nuestros mercados clave.<small>Ohl et al., American
-              Journal of Infection Control, 2012</small></p>
+            menos de una semana. Por eso el sector salud es uno de nuestros mercados clave.</p>
         </div>
       </div>
     </section>
@@ -1755,7 +1757,7 @@
         $('kA').textContent = area.toFixed(2) + ' m²'; $('kM').textContent = area > 0 ? fmt(price / area) : '$0'; $('kG').textContent = fmt(gain);
         const L = [['Película PDLC (' + area.toFixed(2) + ' m² × 55 USD)', film], ['Transformador H30 110 V (× ' + nT + ')', trafo], ['Kit electrónico (× ' + nK + ')', kit]];
         let h = L.map(([a, b], i) => `<div class="ln"><span>${a}</span><span>${fmt(b)}</span></div>` + (i === 2 ? sel.map(k => `<div class="ln s"><span>${k.n}${nK !== 1 ? ' × ' + nK : ''}</span><span>${fmt(k.p * nK)}</span></div>`).join('') : '')).join('');
-        h += `<div class="ln t"><span>Costo total</span><span>${fmt(cost)}</span></div><div class="ln"><span>Margen de ganancia (${Math.round(mg * 100)}%)</span><span>${fmt(gain)}</span></div><div class="ln t"><span>Precio de venta</span><span>${fmt(price)}</span></div>`;
+        h += `<div class="ln t"><span>Precio de venta</span><span>${fmt(price)}</span></div>`;
         $('lines').innerHTML = h;
         quote = `Cotización PrivaView\nÁrea total: ${area.toFixed(2)} m²\n` + L.map(([a, b]) => `${a}: ${fmt(b)} MXN`).join('\n') + `\nCosto total: ${fmt(cost)} MXN\nPrecio de venta (margen ${Math.round(mg * 100)}%): ${fmt(price)} MXN\nTipo de cambio: ${tc} MXN/USD`;
       }
