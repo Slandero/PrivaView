@@ -1042,14 +1042,14 @@
 
     .grid3 {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
       align-items: end
     }
 
     @media (max-width:520px) {
       .grid3 {
-        grid-template-columns: 1fr 1fr
+        grid-template-columns: 1fr
       }
     }
 
@@ -1747,7 +1747,7 @@
       function load(k) { $('rows').innerHTML = ''; PRE[k].forEach(a => addRow(...a)); calc() }
       KIT.forEach(k => { const l = document.createElement('label'); l.htmlFor = 'k_' + k.id; l.innerHTML = `<input type="checkbox" id="k_${k.id}" checked ${k.r ? 'disabled' : ''}> ${k.n}${k.r ? ' (obligatorio)' : ''}<span>${fmt(k.p)}</span>`; $('kit').appendChild(l) });
       function calc() {
-        const tc = num($('tc').value, 16.92), mg = num($('mg').value, 40) / 100, nT = num($('nT').value, 1), nK = num($('nK').value, 1);
+        const tc = num($('tc').value, 16.92), mg = 0.40, nT = num($('nT').value, 1), nK = num($('nK').value, 1);
         let area = 0;
         $('rows').querySelectorAll('.row').forEach(r => { const [w, h, n] = [...r.querySelectorAll('input')].map(i => num(i.value)); const a = w * h * n; area += a; r.querySelector('.ar').textContent = a.toFixed(2) + ' m²' });
         const film = area * FILM * tc, trafo = nT * TRAFO * tc, sel = KIT.filter(k => k.r || $('k_' + k.id).checked), kit = sel.reduce((s, k) => s + k.p, 0) * nK;
@@ -1758,11 +1758,11 @@
         let h = L.map(([a, b], i) => `<div class="ln"><span>${a}</span><span>${fmt(b)}</span></div>` + (i === 2 ? sel.map(k => `<div class="ln s"><span>${k.n}${nK !== 1 ? ' × ' + nK : ''}</span><span>${fmt(k.p * nK)}</span></div>`).join('') : '')).join('');
         h += `<div class="ln t"><span>Precio de venta</span><span>${fmt(price)}</span></div>`;
         $('lines').innerHTML = h;
-        quote = `Cotización PrivaView\nÁrea total: ${area.toFixed(2)} m²\n` + L.map(([a, b]) => `${a}: ${fmt(b)} MXN`).join('\n') + `\nCosto total: ${fmt(cost)} MXN\nPrecio de venta (margen ${Math.round(mg * 100)}%): ${fmt(price)} MXN\nTipo de cambio: ${tc} MXN/USD`;
+        quote = `Cotización PrivaView\nÁrea total: ${area.toFixed(2)} m²\n` + L.map(([a, b]) => `${a}: ${fmt(b)} MXN`).join('\n') + `\nCosto total: ${fmt(cost)} MXN\nPrecio de venta: ${fmt(price)} MXN\nTipo de cambio: ${tc} MXN/USD`;
       }
       $('addRow').addEventListener('click', () => { addRow(); calc() });
       document.querySelectorAll('[data-p]').forEach(b => b.addEventListener('click', () => load(b.dataset.p)));
-      ['tc', 'mg', 'nT', 'nK'].forEach(id => $(id).addEventListener('input', calc));
+      ['tc', 'nT', 'nK'].forEach(id => { const el = $(id); if (el) el.addEventListener('input', calc) });
       $('kit').addEventListener('change', calc);
 
       function copy(text, onOk, onFail) { try { navigator.clipboard.writeText(text).then(onOk, onFail) } catch (e) { onFail() } }
